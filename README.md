@@ -2,21 +2,21 @@
 
 <br />
 <div align="center">
-  <a href="https://github.com/hidirektor/OnderGrup-Hydraulic-Tool">
-    <img src="https://github.com/Onder-Grup/Hydraulic-Tool/blob/main/readme/onderGrupMain.png" alt="Logo" width="320" height="80">
+  <a href="https://github.com/Onder-Grup/ondergrup-backend-api">
+    <img src="https://github.com/Onder-Grup/ondergrup-backend-api/blob/main/readme/gelkuryelogo.png" alt="Logo" width="320" height="80">
   </a>
 
-  <h3 align="center">Önder Grup Server</h3>
+  <h3 align="center">GelKurye REST API</h3>
 
   <p align="center">
-    Önder Grup yazılım araçları için server tarafında çalışacak olan web servis projesidir!
+    GelKurye yazılım araçları için server tarafında çalışacak olan web servis projesidir!
     <br />
     <a href="https://www.notion.so/Teamspace-Home-0c63f5fdeb054503a2b66944317b6a6a"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/hidirektor/OnderGrup-Hydraulic-Tool/issues">Report Bug</a>
+    <a href="https://github.com/Onder-Grup/ondergrup-backend-api/issues">Report Bug</a>
     ·
-    <a href="https://github.com/hidirektor/OnderGrup-Hydraulic-Tool/issues">Request Feature</a>
+    <a href="https://github.com/Onder-Grup/ondergrup-backend-api/issues">Request Feature</a>
   </p>
 </div>
 
@@ -45,10 +45,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![ScreenShot][product-screenshot]](https://ondergrup.com)
-[![ScreenShot-2][product-screenshot2]](https://ondergrup.com)
-
-Önder Grup yazılım araçlarının web servis tarafıdır.
+GelKurye yazılım araçlarının web servis tarafıdır.
 
 Programın yapabildikleri:
 * Tüm veritabanı erişimleri
@@ -65,8 +62,6 @@ Tabii ki programa yalnızca DEVELOPER türündeki kullanıcılar erişebilir :sm
 
 Programın geliştirilme sürecinde kullanılan teknolojiler aşağıdaki gibidir.
 
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
 * [![Vue][Vue.js]][Vue-url]
 * [![Angular][Angular.io]][Angular-url]
 
