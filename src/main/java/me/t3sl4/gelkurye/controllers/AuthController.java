@@ -86,9 +86,25 @@ public class AuthController {
     }
 
     //signup
-    User user = new User(signUpRequest.getUsername(),
+    User user = new User(signUpRequest.getNameSurname(),
+            signUpRequest.getUsername(),
             signUpRequest.getEmail(),
+            signUpRequest.getPhone(),
             encoder.encode(signUpRequest.getPassword()));
+    if(signUpRequest.getTrendyolAPI() != null) {
+      user.setTrendyolAPI(signUpRequest.getTrendyolAPI());
+      user.setTrendyolSecret(signUpRequest.getTrendyolSecret());
+    }
+
+    if(signUpRequest.getYemekSepetiID() != null) {
+      user.setYemekSepetiID(signUpRequest.getYemekSepetiID());
+      user.setYemekSepetiAPI(signUpRequest.getYemekSepetiAPI());
+    }
+
+    if(signUpRequest.getGetirID() != null) {
+      user.setGetirID(signUpRequest.getGetirID());
+      user.setGetirAPI(signUpRequest.getGetirAPI());
+    }
 
     String strRole = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();
