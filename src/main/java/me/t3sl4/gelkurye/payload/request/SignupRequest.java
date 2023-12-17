@@ -4,21 +4,24 @@ import org.springframework.lang.Nullable;
 
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.validation.constraints.*;
 
 public class SignupRequest {
+
   @NotBlank
   @Size(max = 90)
+  @Column(columnDefinition = "VARCHAR(255) COLLATE utf8_general_ci")
   private String nameSurname;
 
   @NotBlank
   @Size(min = 3, max = 20)
-  private String userName;
+  private String username;
 
   @NotBlank
   @Size(max = 50)
   @Email
-  private String eMail;
+  private String email;
 
   @NotBlank
   @Size(max = 20)
@@ -55,19 +58,19 @@ public class SignupRequest {
   private String getirAPI;
 
   public String getUsername() {
-    return userName;
+    return username;
   }
 
   public void setUsername(String userName) {
-    this.userName = userName;
+    this.username = userName;
   }
 
   public String getEmail() {
-    return eMail;
+    return email;
   }
 
   public void setEmail(String eMail) {
-    this.eMail = eMail;
+    this.email = eMail;
   }
 
   public String getPassword() {

@@ -85,6 +85,9 @@ public class AuthController {
               .body(new MessageResponse("Error: Email is already in use!"));
     }
 
+    System.out.println("asdasdfasdas");
+    System.out.println(signUpRequest.getUsername());
+
     //signup
     User user = new User(signUpRequest.getNameSurname(),
             signUpRequest.getUsername(),

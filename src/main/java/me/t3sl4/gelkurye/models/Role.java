@@ -3,7 +3,7 @@ package me.t3sl4.gelkurye.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "Roles")
 public class Role {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
