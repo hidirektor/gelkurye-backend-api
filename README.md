@@ -145,9 +145,9 @@ I've included a few of my favorites to kick things off!
 [Next-url]: https://www.java.com/tr/
 [React.js]: https://img.shields.io/badge/javafx-20232A?style=for-the-badge&logo=javafx&logoColor=61DAFB
 [React-url]: https://openjfx.io/
-[Vue.js]: https://img.shields.io/badge/node.js-35495E?style=for-the-badge&logo=nodedotjs&logoColor=4FC08D
+[Vue.js]: https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white
 [Vue-url]: https://nodejs.org/en
-[Angular.io]: https://img.shields.io/badge/mongodb-DD0031?style=for-the-badge&logo=mongodb&logoColor=white
+[Angular.io]: https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-square&logo=Spring&logoColor=white
 [Angular-url]: https://www.mongodb.com/
 [Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
 [Svelte-url]: https://svelte.dev/
