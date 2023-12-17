@@ -3,7 +3,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/GelKurye/gelkurye-backend-api">
-    <img src="https://github.com/GelKurye/gelkurye-backend-api/blob/main/readme/gelkuryelogo.png" alt="Logo" width="320" height="80">
+    <img src="https://github.com/GelKurye/gelkurye-backend-api/blob/main/readme/icons/gelkuryelogo.png" alt="Logo" width="320" height="80">
   </a>
 
   <h3 align="center">GelKurye REST API</h3>
