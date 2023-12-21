@@ -72,6 +72,10 @@ public class User {
           inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "user_name", referencedColumnName = "userName")
+  private UserFiles userFiles;
+
   public User() {
   }
 
@@ -191,5 +195,13 @@ public class User {
 
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
+  }
+
+  public UserFiles getUserFiles() {
+    return userFiles;
+  }
+
+  public void setUserFiles(UserFiles userFiles) {
+    this.userFiles = userFiles;
   }
 }

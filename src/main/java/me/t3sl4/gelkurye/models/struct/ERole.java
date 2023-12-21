@@ -1,4 +1,4 @@
-package me.t3sl4.gelkurye.models;
+package me.t3sl4.gelkurye.models.struct;
 
 public enum ERole {
   USER,

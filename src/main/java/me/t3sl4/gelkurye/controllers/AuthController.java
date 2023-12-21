@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import me.t3sl4.gelkurye.models.ERole;
+import me.t3sl4.gelkurye.models.struct.ERole;
 import me.t3sl4.gelkurye.models.Role;
 import me.t3sl4.gelkurye.models.User;
 import me.t3sl4.gelkurye.payload.request.LoginRequest;

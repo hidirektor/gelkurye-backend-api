@@ -1,5 +1,7 @@
 package me.t3sl4.gelkurye.models;
 
+import me.t3sl4.gelkurye.models.struct.ERole;
+
 import javax.persistence.*;
 
 @Entity
