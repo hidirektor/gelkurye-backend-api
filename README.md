@@ -6,7 +6,7 @@
     <img src="https://github.com/GelKurye/gelkurye-backend-api/blob/main/readme/icons/gelkuryelogo.png" alt="Logo" width="320" height="120">
   </a>
 
-  <h3 align="center">GelKurye REST API</h3>
+  <h3 align="center">GelKurye REST MerchantsAPI</h3>
 
   <p align="center">
     GelKurye yazılım araçları için server tarafında çalışacak olan web servis projesidir!
@@ -82,7 +82,7 @@ Aşağıdaki dokümanı kullanarak programın kullanımına ve hata kodlarına i
 <!-- ROADMAP -->
 ## Roadmap
 
-- [x] API Limit
+- [x] MerchantsAPI Limit
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
