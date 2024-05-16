@@ -3,9 +3,9 @@ const sequelize = require('../config/database');
 
 const UserLocation = sequelize.define('UserLocation', {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-    userName: { type: DataTypes.STRING, unique: true },
-    latitude: { type: DataTypes.FLOAT },
-    longitude: { type: DataTypes.FLOAT },
+    userName: { type: DataTypes.STRING, unique: true, allowNull: false },
+    latitude: { type: DataTypes.FLOAT, allowNull: false },
+    longitude: { type: DataTypes.FLOAT, allowNull: false },
     timestamp: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
 }, {
     timestamps: false,

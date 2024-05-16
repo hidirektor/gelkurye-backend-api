@@ -3,9 +3,9 @@ const sequelize = require('../config/database');
 
 const MerchantsOwner = sequelize.define('MerchantsOwner', {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-    userName: { type: DataTypes.STRING, unique: true },
-    phoneNumber: { type: DataTypes.STRING },
-    eMail: { type: DataTypes.STRING, unique: true }
+    userName: { type: DataTypes.STRING, unique: true, allowNull: false },
+    phoneNumber: { type: DataTypes.STRING, allowNull: false },
+    eMail: { type: DataTypes.STRING, unique: true, allowNull: false }
 }, {
     timestamps: false,
     charset: 'utf8',
