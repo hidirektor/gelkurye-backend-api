@@ -13,7 +13,7 @@ const Users = sequelize.define('Users', {
     profilePhoto: { type: DataTypes.STRING, allowNull: false },
     relativeNameSurname: { type: DataTypes.STRING, allowNull: false },
     relativePhoneNumber: { type: DataTypes.STRING, allowNull: false },
-    registeredMerchant: { type: DataTypes.STRING, allowNull: false },
+    registeredMerchant: { type: DataTypes.STRING, allowNull: true },
     createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
 }, {
     timestamps: false,
