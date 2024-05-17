@@ -6,8 +6,8 @@ const UserPreferences = sequelize.define('UserPreferences', {
     userName: { type: DataTypes.STRING, unique: true, allowNull: false },
     nightMode: { type: DataTypes.BOOLEAN, defaultValue: false },
     selectedLanguage: { type: DataTypes.BOOLEAN, defaultValue: false },
-    firstBreakTime: { type: DataTypes.DATE, allowNull: true, defaultValue: '10.00' },
-    secondBreakTime: { type: DataTypes.DATE, allowNull: true, defaultValue: '19.00' }
+    firstBreakTime: { type: DataTypes.DATE, allowNull: true, defaultValue: DataTypes.NOW },
+    secondBreakTime: { type: DataTypes.DATE, allowNull: true, defaultValue: DataTypes.NOW }
 }, {
     timestamps: false,
     charset: 'utf8',
