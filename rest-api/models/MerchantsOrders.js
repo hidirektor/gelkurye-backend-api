@@ -3,6 +3,7 @@ const sequelize = require('../config/database');
 
 const MerchantsOrders = sequelize.define('MerchantsOrders', {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    userID: { type: DataTypes.STRING, allowNull: false },
     merchantId: { type: DataTypes.INTEGER, allowNull: false },
     carrierName: { type: DataTypes.STRING, allowNull: false },
     marketplaceName: { type: DataTypes.STRING, allowNull: false },

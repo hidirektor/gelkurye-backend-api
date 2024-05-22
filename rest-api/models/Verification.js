@@ -3,6 +3,7 @@ const sequelize = require('../config/database');
 
 const Verification = sequelize.define('Verification', {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    userID: { type: DataTypes.STRING, allowNull: false },
     userName: { type: DataTypes.STRING, allowNull: false },
     otpType: { type: DataTypes.STRING, allowNull: false },
     otpCode: { type: DataTypes.STRING, allowNull: false },

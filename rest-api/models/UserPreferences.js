@@ -3,6 +3,7 @@ const sequelize = require('../config/database');
 
 const UserPreferences = sequelize.define('UserPreferences', {
     id: { type: DataTypes.INTEGER, primaryKey: true, index: true },
+    userID: { type: DataTypes.STRING, allowNull: false },
     userName: { type: DataTypes.STRING, unique: true, allowNull: false },
     nightMode: { type: DataTypes.BOOLEAN, defaultValue: false },
     selectedLanguage: { type: DataTypes.BOOLEAN, defaultValue: false },

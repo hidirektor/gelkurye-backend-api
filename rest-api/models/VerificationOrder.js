@@ -3,6 +3,7 @@ const sequelize = require('../config/database');
 
 const VerificationOrder = sequelize.define('VerificationOrder', {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    userID: { type: DataTypes.STRING, allowNull: false },
     carrierUserName: { type: DataTypes.STRING, allowNull: false },
     customerName: { type: DataTypes.STRING, allowNull: false },
     customerPhoneNumber: { type: DataTypes.STRING, allowNull: false },
