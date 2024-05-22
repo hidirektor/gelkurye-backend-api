@@ -5,8 +5,7 @@ const UserDocuments = require('../models/UserDocuments');
 const UserRating = require('../models/UserRating');
 const UserLocation = require('../models/UserLocation');
 const MerchantsAPI = require('../models/MerchantsAPI');
-const ActiveOrders = require('../models/ActiveOrders');
-const DeliveredOrders = require('../models/ActiveOrders');
+const Orders = require('../models/Orders');
 const ActionLog = require('../models/ActionLog');
 const OTPLog = require('../models/OTPLog');
 const Merchants = require('../models/Merchants');
@@ -53,9 +52,5 @@ Merchants.hasMany(MerchantsAPI, { foreignKey: 'merchantID', sourceKey: 'merchant
 MerchantsAPI.belongsTo(Merchants, { foreignKey: 'merchantID', targetKey: 'merchantID' });
 
 // Merchants.merchantID > ActiveOrders.merchantID
-Merchants.hasMany(ActiveOrders, { foreignKey: 'merchantID', sourceKey: 'merchantID', onUpdate: 'CASCADE', onDelete: 'CASCADE' });
-ActiveOrders.belongsTo(Merchants, { foreignKey: 'merchantID', targetKey: 'merchantID' });
-
-// Merchants.merchantID > DeliveredOrders.merchantID
-Merchants.hasMany(DeliveredOrders, { foreignKey: 'merchantID', sourceKey: 'merchantID', onUpdate: 'CASCADE', onDelete: 'CASCADE' });
-DeliveredOrders.belongsTo(Merchants, { foreignKey: 'merchantID', targetKey: 'merchantID' });
+Merchants.hasMany(Orders, { foreignKey: 'merchantID', sourceKey: 'merchantID', onUpdate: 'CASCADE', onDelete: 'CASCADE' });
+Orders.belongsTo(Merchants, { foreignKey: 'merchantID', targetKey: 'merchantID' });

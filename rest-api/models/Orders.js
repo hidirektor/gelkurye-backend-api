@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const DeliveredOrders = sequelize.define('DeliveredOrders', {
+const Orders = sequelize.define('Orders', {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     merchantID: { type: DataTypes.STRING, unique: true, allowNull: false },
     marketplaceName: { type: DataTypes.STRING, allowNull: false },
@@ -16,9 +16,9 @@ const DeliveredOrders = sequelize.define('DeliveredOrders', {
     otpTime: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
 }, {
     timestamps: false,
-    tableName: 'DeliveredOrders',
+    tableName: 'Orders',
     charset: 'utf8',
     collate: 'utf8_general_ci'
 });
 
-module.exports = DeliveredOrders;
+module.exports = Orders;
