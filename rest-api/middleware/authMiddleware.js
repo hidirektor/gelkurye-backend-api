@@ -1,22 +1,14 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 
-const authMiddleware = (roles = []) => {
-    return (req, res, next) => {
-        const token = req.headers['authorization'];
-        if (!token) return res.status(403).json({ message: 'No token provided' });
+module.exports = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
 
-        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-            if (err) return res.status(500).json({ message: 'Failed to authenticate token' });
+    if (!token) return res.sendStatus(401);
 
-            if (roles.length && !roles.includes(decoded.userType)) {
-                return res.status(403).json({ message: 'Unauthorized' });
-            }
-
-            req.user = decoded;
-            next();
-        });
-    };
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403);
+        req.user = user;
+        next();
+    });
 };
-
-module.exports = authMiddleware;

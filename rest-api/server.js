@@ -5,12 +5,19 @@ const app = express();
 require('dotenv').config();
 const sequelize = require('./config/database');
 require('./config/associations');
-const authRoutes = require('./routes/authRoutes');
-const locationRoutes = require('./routes/locationRoutes');
+
+const authRoutes = require('./routes/auth');
+const tokenRoutes = require('./routes/token');
+const otpRoutes = require('./routes/otp');
+const userRoutes = require('./routes/user');
+const locationRoutes = require('./routes/location');
 
 app.use(express.json());
-app.use('/api/v1', authRoutes);
-app.use('/api/v1', locationRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/token', tokenRoutes);
+app.use('/api/v1/otp', otpRoutes);
+app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/location', locationRoutes);
 
 const server = http.createServer(app);
 const io = new Server(server);
