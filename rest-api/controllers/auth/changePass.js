@@ -20,6 +20,11 @@ module.exports = async (req, res) => {
         return res.status(400).json({ message: 'Password can only be changed once every 7 days' });
     }
 
+    const isSamePassword = await bcrypt.compare(newPassword, user.password);
+    if (isSamePassword) {
+        return res.status(400).json({ message: 'New password cannot be the same as the old password' });
+    }
+
     user.password = await bcrypt.hash(newPassword, 10);
     user.lastPasswordChange = currentTime;
     await user.save();
