@@ -1,8 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const Document = require('../models/UserDocuments');
-const RefreshToken = require('../models/RefreshToken');
+const Document = require('../../models/UserDocuments');
+const RefreshToken = require('../../models/RefreshToken');
 require('dotenv').config();
 
 exports.register = async (req, res) => {

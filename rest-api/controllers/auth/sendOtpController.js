@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const Verification = require('../models/Verification');
+const Verification = require('../../models/Verification');
 require('dotenv').config();
 
 exports.sendOtp = async (req, res) => {

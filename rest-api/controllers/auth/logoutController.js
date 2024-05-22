@@ -1,4 +1,4 @@
-const RefreshToken = require('../models/RefreshToken');
+const RefreshToken = require('../../models/RefreshToken');
 
 exports.logout = async (req, res) => {
     const token = req.header('Authorization').replace('Bearer ', '');

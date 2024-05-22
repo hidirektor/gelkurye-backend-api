@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
 
-const registerController = require('../controllers/registerController');
-const loginController = require('../controllers/loginController');
-const logoutController = require('../controllers/logoutController');
-const resetPasswordController = require('../controllers/resetPasswordController');
-const sendOtpController = require('../controllers/sendOtpController');
-const getProfileInfoController = require('../controllers/getProfileInfoController');
-const updateProfileController = require('../controllers/updateProfileController');
+const registerController = require('../controllers/auth/registerController');
+const loginController = require('../controllers/auth/loginController');
+const logoutController = require('../controllers/auth/logoutController');
+const resetPasswordController = require('../controllers/auth/resetPasswordController');
+const sendOtpController = require('../controllers/auth/sendOtpController');
+const getProfileInfoController = require('../controllers/profile/getProfileInfoController');
+const updateProfileController = require('../controllers/profile/updateProfileController');
 
 router.post('/register', registerController.register);
 router.post('/login', loginController.login);

@@ -1,4 +1,4 @@
-const Location = require('../models/UserLocation');
+const Location = require('../../models/UserLocation');
 
 exports.updateLocation = async (req, res) => {
     const { userName, latitude, longitude } = req.body;
