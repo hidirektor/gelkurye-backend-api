@@ -3,7 +3,7 @@ const sequelize = require('../config/database');
 
 const RefreshToken = sequelize.define('RefreshToken', {
     token: { type: DataTypes.STRING, primaryKey: true },
-    userID: { type: DataTypes.STRING, allowNull: false }
+    userID: { type: DataTypes.STRING, unique: true, allowNull: false }
 }, {
     timestamps: false,
     tableName: 'RefreshTokens',
