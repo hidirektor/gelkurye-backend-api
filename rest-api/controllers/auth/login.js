@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
     if (!validPassword) return res.status(401).json({ message: 'Invalid password' });
 
     const accessToken = generateAccessToken({ userID: user.userID });
-    const refreshToken = jwt.sign({ userID: user.userID }, process.env.REFRESH_TOKEN_SECRET);
+    const refreshToken = jwt.sign({ userID: user.userID }, process.env.JWT_SECRET);
 
     await RefreshToken.create({ token: refreshToken, userID: user.userID });
 

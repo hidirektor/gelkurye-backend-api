@@ -2,26 +2,60 @@ const Users = require('../../models/Users');
 const UserDocuments = require('../../models/UserDocuments');
 const UserPreferences = require('../../models/UserPreferences');
 const UserRating = require('../../models/UserRating');
+const Merchants = require('../../models/Merchants');
 const bcrypt = require('bcryptjs');
+const generateUserID = require('../../helpers/userIDGenerator');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = async (req, res) => {
-    const { userID, userName, eMail, userType, NameSurname, phoneNumber, address, password, profilePhoto, relativeNameSurname, relativePhoneNumber } = req.body;
+    const { userName, eMail, userType, NameSurname, phoneNumber, address, password, profilePhoto, relativeNameSurname, relativePhoneNumber, merchantName, merchantAddress, contactNumber } = req.body;
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    try {
+        let userID = generateUserID();
+        let userExists = await Users.findOne({ where: { userID } });
 
-    const newUser = await Users.create({
-        userID, userName, eMail, userType, NameSurname, phoneNumber, address, password: hashedPassword, profilePhoto, relativeNameSurname, relativePhoneNumber
-    });
+        // Ensure userID is unique
+        while (userExists) {
+            userID = generateUserID();
+            userExists = await Users.findOne({ where: { userID } });
+        }
 
-    await UserDocuments.create({ userID, licenseFrontFace: '', licenseBackFace: '' });
-    await UserPreferences.create({
-        userID,
-        nightMode: false,
-        selectedLanguage: true,
-        firstBreakTime: new Date(new Date().setHours(10, 0, 0)),
-        secondBreakTime: new Date(new Date().setHours(18, 0, 0))
-    });
-    await UserRating.create({ userID, userRating: 0 });
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-    res.json(newUser);
+        const newUser = await Users.create({
+            userID, userName, eMail, userType, NameSurname, phoneNumber, address, password: hashedPassword, profilePhoto, relativeNameSurname, relativePhoneNumber
+        });
+
+        if (userType === 'MERCHANT') {
+            let merchantID = uuidv4();
+            let merchantExists = await Merchants.findOne({ where: { merchantID } });
+
+            while (merchantExists || await Users.findOne({ where: { userID: merchantID } })) {
+                merchantID = uuidv4();
+                merchantExists = await Merchants.findOne({ where: { merchantID } });
+            }
+
+            await Merchants.create({
+                userID,
+                merchantID,
+                merchantName,
+                merchantAddress,
+                contactNumber
+            });
+        }
+
+        await UserDocuments.create({ userID, licenseFrontFace: '', licenseBackFace: '' });
+        await UserPreferences.create({
+            userID,
+            nightMode: false,
+            selectedLanguage: true,
+            firstBreakTime: new Date(new Date().setHours(10, 0, 0)),
+            secondBreakTime: new Date(new Date().setHours(18, 0, 0))
+        });
+        await UserRating.create({ userID, userRating: 0 });
+
+        res.json(newUser);
+    } catch (error) {
+        res.status(500).json({ message: 'Error registering user', error });
+    }
 };
