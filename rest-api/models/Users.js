@@ -15,6 +15,10 @@ const Users = sequelize.define('Users', {
     relativeNameSurname: { type: DataTypes.STRING, allowNull: false },
     relativePhoneNumber: { type: DataTypes.STRING, allowNull: false },
     registeredMerchant: { type: DataTypes.STRING, allowNull: true },
+    lastPasswordChange: {
+        type: DataTypes.BIGINT,
+        allowNull: true
+    },
     createdAt: {
         type: DataTypes.BIGINT,
         defaultValue: () => Math.floor(Date.now() / 1000)
