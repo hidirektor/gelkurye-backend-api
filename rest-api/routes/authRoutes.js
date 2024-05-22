@@ -14,6 +14,7 @@ router.post('/register', registerController.register);
 router.post('/login', loginController.login);
 router.post('/logout', authMiddleware(), logoutController.logout);
 router.post('/resetPass', resetPasswordController.resetPassword);
+router.post('/refresh-token', refreshTokenController.refreshToken);
 router.post('/sendOTP', sendOtpController.sendOtp);
 router.get('/getProfileInfo/:userName', authMiddleware(), getProfileInfoController.getProfileInfo);
 router.put('/updateProfile/:userName', authMiddleware(), updateProfileController.updateProfile);

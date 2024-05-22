@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/Users');
+const User = require('../models/User');
+const RefreshToken = require('../models/RefreshToken');
 require('dotenv').config();
 
 exports.login = async (req, res) => {
@@ -19,9 +20,12 @@ exports.login = async (req, res) => {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ id: user.id, userType: user.userType }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const accessToken = jwt.sign({ id: user.id, userType: user.userType }, process.env.JWT_SECRET, { expiresIn: '15m' });
+        const refreshToken = jwt.sign({ id: user.id, userType: user.userType }, process.env.REFRESH_SECRET);
 
-        res.status(200).json({ message: 'Logged in successfully', token });
+        await RefreshToken.create({ token: refreshToken, userId: user.id });
+
+        res.status(200).json({ message: 'Logged in successfully', accessToken, refreshToken });
     } catch (error) {
         res.status(500).json({ message: 'Error logging in', error });
     }

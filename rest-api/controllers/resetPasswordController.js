@@ -1,5 +1,8 @@
 const bcrypt = require('bcryptjs');
-const User = require('../models/Users');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+const RefreshToken = require('../models/RefreshToken');
+require('dotenv').config();
 
 exports.resetPassword = async (req, res) => {
     const { userName, newPassword } = req.body;
@@ -13,6 +16,8 @@ exports.resetPassword = async (req, res) => {
 
         user.password = await bcrypt.hash(newPassword, 10);
         await user.save();
+
+        await RefreshToken.destroy({ where: { userId: user.id } });
 
         res.status(200).json({ message: 'Password reset successfully' });
     } catch (error) {
