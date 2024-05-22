@@ -11,6 +11,7 @@ const System = sequelize.define('System', {
     oneTimePackageLimit: { type: DataTypes.INTEGER, allowNull: true }
 }, {
     timestamps: false,
+    tableName: 'System',
     charset: 'utf8',
     collate: 'utf8_general_ci'
 });

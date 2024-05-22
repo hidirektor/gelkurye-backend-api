@@ -6,6 +6,7 @@ const registerController = require('../controllers/auth/registerController');
 const loginController = require('../controllers/auth/loginController');
 const logoutController = require('../controllers/auth/logoutController');
 const resetPasswordController = require('../controllers/auth/resetPasswordController');
+const refreshTokenController = require('../controllers/auth/refreshTokenController');
 const sendOtpController = require('../controllers/auth/sendOtpController');
 const getProfileInfoController = require('../controllers/profile/getProfileInfoController');
 const updateProfileController = require('../controllers/profile/updateProfileController');

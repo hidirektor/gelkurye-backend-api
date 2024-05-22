@@ -4,7 +4,7 @@ const { Server } = require('socket.io');
 const app = express();
 require('dotenv').config();
 const sequelize = require('./config/database');
-require('./config/associations');  // İlişkileri tanımla
+require('./config/associations');
 const authRoutes = require('./routes/authRoutes');
 const locationRoutes = require('./routes/locationRoutes');
 

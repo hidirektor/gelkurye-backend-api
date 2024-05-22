@@ -10,6 +10,7 @@ const Verification = require('../models/Verification');
 const VerificationBike = require('../models/VerificationBike');
 const VerificationOrder = require('../models/VerificationOrder');
 const Merchants = require('../models/Merchants');
+const System = require('../models/System');
 
 // Users.userID > UserPreferences.userID
 Users.hasOne(UserPreferences, { foreignKey: 'userID', sourceKey: 'userID', onUpdate: 'CASCADE', onDelete: 'CASCADE' });
