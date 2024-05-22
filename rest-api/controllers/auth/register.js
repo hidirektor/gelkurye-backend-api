@@ -8,7 +8,11 @@ const generateUserID = require('../../helpers/userIDGenerator');
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = async (req, res) => {
-    const { userName, eMail, userType, NameSurname, phoneNumber, address, password, profilePhoto, relativeNameSurname, relativePhoneNumber, merchantName, merchantAddress, contactNumber } = req.body;
+    const {
+        userName, eMail, userType, NameSurname, phoneNumber, address, password,
+        profilePhoto, relativeNameSurname, relativePhoneNumber, licenseFrontFace,
+        licenseBackFace, merchantName, merchantAddress, contactNumber
+    } = req.body;
 
     try {
         let userID = generateUserID();
@@ -23,7 +27,8 @@ module.exports = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = await Users.create({
-            userID, userName, eMail, userType, NameSurname, phoneNumber, address, password: hashedPassword, profilePhoto, relativeNameSurname, relativePhoneNumber
+            userID, userName, eMail, userType, NameSurname, phoneNumber, address, password: hashedPassword,
+            profilePhoto, relativeNameSurname, relativePhoneNumber
         });
 
         if (userType === 'MERCHANT') {
@@ -44,7 +49,7 @@ module.exports = async (req, res) => {
             });
         }
 
-        await UserDocuments.create({ userID, licenseFrontFace: '', licenseBackFace: '' });
+        await UserDocuments.create({ userID, licenseFrontFace, licenseBackFace });
         await UserPreferences.create({
             userID,
             nightMode: false,
@@ -56,6 +61,15 @@ module.exports = async (req, res) => {
 
         res.json(newUser);
     } catch (error) {
-        res.status(500).json({ message: 'Error registering user', error });
+        if (error.name === 'SequelizeUniqueConstraintError') {
+            const field = error.errors[0].path;
+            const message = field === 'userName' ? 'Username is already taken' : field === 'eMail' ? 'Email is already registered' : 'Unique constraint error';
+            res.status(400).json({ message });
+        } else if (error.name === 'SequelizeValidationError') {
+            const message = error.errors.map(e => e.message).join(', ');
+            res.status(400).json({ message });
+        } else {
+            res.status(500).json({ message: 'An unexpected error occurred while registering user' });
+        }
     }
 };

@@ -13,7 +13,10 @@ const Orders = sequelize.define('Orders', {
     customerAddress: { type: DataTypes.STRING, allowNull: false },
     otpType: { type: DataTypes.STRING, allowNull: false },
     otpCode: { type: DataTypes.STRING, allowNull: false },
-    otpTime: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
+    otpTime: {
+        type: DataTypes.BIGINT,
+        defaultValue: null
+    }
 }, {
     timestamps: false,
     tableName: 'Orders',

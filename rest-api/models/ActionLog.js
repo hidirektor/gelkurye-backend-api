@@ -6,8 +6,11 @@ const ActionLog = sequelize.define('ActionLog', {
     userID: { type: DataTypes.STRING, unique: true, allowNull: true },
     logType: { type: DataTypes.STRING, allowNull: false },
     plateNumber: { type: DataTypes.STRING, allowNull: true },
-    plateChangeDate: { type: DataTypes.DATE, allowNull: true, defaultValue: DataTypes.NOW },
-    logTime: { type: DataTypes.DATE, allowNull: false }
+    logTime: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        defaultValue: () => Math.floor(Date.now() / 1000)
+    }
 }, {
     timestamps: false,
     tableName: 'ActionLog',

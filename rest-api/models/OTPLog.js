@@ -6,8 +6,17 @@ const OTPLog = sequelize.define('OTPLog', {
     userID: { type: DataTypes.STRING, unique: true, allowNull: true },
     otpType: { type: DataTypes.STRING, allowNull: true },
     otpCode: { type: DataTypes.STRING, allowNull: true },
-    otpSent: { type: DataTypes.DATE,  allowNull: true, defaultValue: DataTypes.NOW },
-    otpValidate: { type: DataTypes.DATE,  allowNull: true, defaultValue: DataTypes.NOW }
+    otpSent: {
+        type: DataTypes.BIGINT,
+        allowNull: true,
+        defaultValue: () => Math.floor(Date.now() / 1000)
+    },
+    otpValidate: {
+        type: DataTypes.BIGINT,
+        allowNull: true,
+        defaultValue: null
+    }
+
 }, {
     timestamps: false,
     tableName: 'OTPLog',

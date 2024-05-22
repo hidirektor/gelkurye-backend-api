@@ -6,7 +6,10 @@ const UserLocation = sequelize.define('UserLocation', {
     userID: { type: DataTypes.STRING, unique: true, allowNull: false },
     latitude: { type: DataTypes.FLOAT, allowNull: false },
     longitude: { type: DataTypes.FLOAT, allowNull: false },
-    timestamp: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
+    timestamp: {
+        type: DataTypes.BIGINT,
+        defaultValue: () => Math.floor(Date.now() / 1000)
+    }
 }, {
     timestamps: false,
     tableName: 'UserLocation',
