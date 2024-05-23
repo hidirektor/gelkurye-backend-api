@@ -5,15 +5,17 @@ const generateOtpEmailContent = require('../../helpers/generateOtpEmailContent')
 const moment = require('moment');
 
 module.exports = async (req, res) => {
-    const { userID, email } = req.body;
+    const { email } = req.body;
     const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
     const otpSent = moment().unix();
 
     try {
-        const user = await Users.findOne({ where: { userID, eMail: email } });
+        const user = await Users.findOne({ where: { eMail: email } });
         if (!user) {
-            return res.status(404).json({ message: 'Invalid userID or email. User not found.' });
+            return res.status(404).json({ message: 'Invalid email. User not found.' });
         }
+
+        const userID = user.userID;
 
         const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,

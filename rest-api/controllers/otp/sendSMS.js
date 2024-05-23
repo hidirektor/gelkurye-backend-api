@@ -6,15 +6,17 @@ const xml2js = require('xml2js');
 const moment = require('moment');
 
 module.exports = async (req, res) => {
-    const { userID, phoneNumber } = req.body;
+    const { phoneNumber } = req.body;
     const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
     const otpSent = moment().unix();
 
     try {
-        const user = await Users.findOne({ where: { userID, phoneNumber } });
+        const user = await Users.findOne({ where: { phoneNumber } });
         if (!user) {
             return res.status(404).json({ message: 'Invalid userID or phone number. User not found.' });
         }
+
+        const userID = user.userID;
 
         const xmlBody = `
             <?xml version="1.0"?>
