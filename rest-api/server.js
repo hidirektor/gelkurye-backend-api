@@ -5,6 +5,7 @@ const app = express();
 require('dotenv').config();
 const sequelize = require('./config/database');
 require('./config/associations');
+const { trendyolService } = require('./services/trendyolService');
 
 const authRoutes = require('./routes/auth');
 const tokenRoutes = require('./routes/token');
@@ -37,6 +38,9 @@ io.on('connection', (socket) => {
 sequelize.sync({ force: true, alter: true }).then(() => {
     server.listen(process.env.PORT, () => {
         console.log('Server running on port 3000');
+
+        // Her 1 dakikada bir siparişleri çek
+        setInterval(trendyolService, 60000);
     });
 }).catch((error) => {
     console.error('Unable to connect to the database:', error);

@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const Orders = sequelize.define('Orders', {
+const Order = sequelize.define('Orders', {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     merchantID: { type: DataTypes.STRING, unique: true, allowNull: false },
     marketplaceName: { type: DataTypes.STRING, allowNull: false },
@@ -11,9 +11,18 @@ const Orders = sequelize.define('Orders', {
     customerNameSurname: { type: DataTypes.STRING, allowNull: false },
     customerPhoneNumber: { type: DataTypes.STRING, allowNull: false },
     customerAddress: { type: DataTypes.STRING, allowNull: false },
+    courierReceived: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+    },
     otpType: { type: DataTypes.STRING, allowNull: false },
     otpCode: { type: DataTypes.STRING, allowNull: false },
-    otpTime: {
+    otpSentTime: {
+        type: DataTypes.BIGINT,
+        defaultValue: null
+    },
+    deliveryTime: {
         type: DataTypes.BIGINT,
         defaultValue: null
     }
@@ -24,4 +33,4 @@ const Orders = sequelize.define('Orders', {
     collate: 'utf8_general_ci'
 });
 
-module.exports = Orders;
+module.exports = Order;

@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 const OTPLog = require('../../models/OTPLog');
-const Users = require('../../models/Users');
+const Users = require('../../models/User');
 const generateOtpEmailContent = require('../../helpers/generateOtpEmailContent');
 const moment = require('moment');
 

@@ -1,4 +1,4 @@
-const Users = require('../../models/Users');
+const Users = require('../../models/User');
 const UserDocuments = require('../../models/UserDocuments');
 const UserPreferences = require('../../models/UserPreferences');
 const UserRating = require('../../models/UserRating');
