@@ -4,8 +4,9 @@ const Merchants = require('../models/Merchants');
 const MerchantsAPI = require('../models/MerchantsAPI');
 const Orders = require('../models/Order');
 
-async function trendyolOrders() {
+async function getirOrders() {
     try {
+        // Users tablosunda userType'ı MERCHANT olan kullanıcıları bul
         const merchants = await Users.findAll({ where: { userType: 'MERCHANT' } });
 
         for (const merchant of merchants) {
@@ -15,36 +16,36 @@ async function trendyolOrders() {
             const merchantAPI = await MerchantsAPI.findOne({ where: { merchantID: merchantDetails.merchantID } });
             if (!merchantAPI) continue;
 
-            const trendyolResponse = await axios.get('https://api.trendyol.com/sapigw/suppliers/' + merchantAPI.trendyolSupplierID + '/orders', {
+            const getirResponse = await axios.get('https://api.getir.com/v2/orders', {
                 headers: {
-                    'Authorization': 'Basic ' + Buffer.from(merchantAPI.trendyolAPIKey + ':' + merchantAPI.trendyolAPISecretKey).toString('base64')
+                    'Authorization': `Bearer ${merchantAPI.getirYemekMerchantToken}`
                 }
             });
 
-            const orders = trendyolResponse.data.content;
+            const orders = getirResponse.data.orders;
 
             for (const order of orders) {
-                if (order.status !== 'Awaiting') continue;
+                if (order.status !== 'preparing') continue;
 
                 await Orders.create({
                     merchantID: merchantDetails.merchantID,
-                    marketplaceName: 'Trendyol',
+                    marketplaceName: 'Getir',
                     marketplaceOrderID: order.id,
-                    isPaid: order.paid,
+                    isPaid: order.isPaid,
                     orderStatus: order.status,
-                    customerNameSurname: order.customerFirstName + ' ' + order.customerLastName,
-                    customerPhoneNumber: order.customerPhone,
+                    customerNameSurname: order.customer.fullName,
+                    customerPhoneNumber: order.customer.phone,
                     customerAddress: order.deliveryAddress.address,
                     otpType: 'sms',
-                    otpCode: order.packageNumber,
+                    otpCode: order.otpCode,
                     otpTime: Math.floor(Date.now() / 1000),
                     courierReceived: false // Yeni alan
                 });
             }
         }
     } catch (error) {
-        console.error('Error fetching and saving orders:', error);
+        console.error('Error fetching and saving Getir orders:', error);
     }
 }
 
-module.exports = { trendyolOrders };
+module.exports = { getirOrders };

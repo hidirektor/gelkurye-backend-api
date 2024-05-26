@@ -6,6 +6,7 @@ require('dotenv').config();
 const sequelize = require('./config/database');
 require('./config/associations');
 const { trendyolService } = require('./services/trendyolService');
+const { getirService } = require('./services/getirService');
 
 const authRoutes = require('./routes/auth');
 const tokenRoutes = require('./routes/token');
@@ -41,6 +42,7 @@ sequelize.sync({ force: true, alter: true }).then(() => {
 
         // Her 1 dakikada bir siparişleri çek
         setInterval(trendyolService, 60000);
+        setInterval(getirService, 60000);
     });
 }).catch((error) => {
     console.error('Unable to connect to the database:', error);
