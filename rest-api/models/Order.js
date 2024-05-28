@@ -8,6 +8,7 @@ const Order = sequelize.define('Orders', {
     marketplaceOrderID: { type: DataTypes.STRING, allowNull: false },
     isPaid: { type: DataTypes.BOOLEAN, allowNull: false },
     orderStatus: { type: DataTypes.STRING, allowNull: false },
+    totalPrice: { type: DataTypes.INTEGER, allowNull: false },
     customerNameSurname: { type: DataTypes.STRING, allowNull: false },
     customerPhoneNumber: { type: DataTypes.STRING, allowNull: false },
     customerAddress: { type: DataTypes.STRING, allowNull: false },

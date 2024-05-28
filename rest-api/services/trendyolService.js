@@ -29,7 +29,7 @@ async function trendyolOrders() {
                 if (order.packageStatus === 'Cancelled') continue; // İptal edilen siparişleri atla
 
                 const existingOrder = await Orders.findOne({ where: { marketplaceOrderID: order.id } });
-                if (existingOrder) continue; // prevent duplicate orders
+                if (existingOrder) continue; // Duplicate order
 
                 await Orders.create({
                     merchantID: merchantDetails.merchantID,
@@ -37,6 +37,7 @@ async function trendyolOrders() {
                     marketplaceOrderID: order.id,
                     isPaid: order.payment.paymentType !== 'PAY_WITH_ON_DELIVERY',
                     orderStatus: 'Created',
+                    totalPrice: order.totalPrice,
                     customerNameSurname: `${order.customer.firstName} ${order.customer.lastName}`,
                     customerPhoneNumber: order.address.phone,
                     customerLatitude: order.address.latitude,
