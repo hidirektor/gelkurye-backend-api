@@ -11,13 +11,15 @@ const Order = sequelize.define('Orders', {
     customerNameSurname: { type: DataTypes.STRING, allowNull: false },
     customerPhoneNumber: { type: DataTypes.STRING, allowNull: false },
     customerAddress: { type: DataTypes.STRING, allowNull: false },
+    customerLatitude: { type: DataTypes.DOUBLE, allowNull: false },
+    customerLongitude: { type: DataTypes.DOUBLE, allowNull: false },
     courierReceived: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         allowNull: false
     },
     otpType: { type: DataTypes.STRING, allowNull: false },
-    otpCode: { type: DataTypes.STRING, allowNull: false },
+    otpCode: { type: DataTypes.STRING, allowNull: true },
     otpSentTime: {
         type: DataTypes.BIGINT,
         defaultValue: null
