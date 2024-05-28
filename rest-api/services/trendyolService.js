@@ -31,7 +31,7 @@ async function trendyolOrders() {
                 await Orders.create({
                     merchantID: merchantDetails.merchantID,
                     marketplaceName: 'Trendyol',
-                    marketplaceOrderID: order.orderId,
+                    marketplaceOrderID: order.id,
                     isPaid: order.payment.paymentType !== 'PAY_WITH_ON_DELIVERY',
                     orderStatus: 'Created',
                     customerNameSurname: `${order.customer.firstName} ${order.customer.lastName}`,

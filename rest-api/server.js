@@ -13,6 +13,7 @@ const tokenRoutes = require('./routes/token');
 const otpRoutes = require('./routes/otp');
 const userRoutes = require('./routes/user');
 const locationRoutes = require('./routes/location');
+const orderRoutes = require('./routes/order');
 
 app.use(express.json());
 app.use('/api/v1/auth', authRoutes);
@@ -20,6 +21,7 @@ app.use('/api/v1/token', tokenRoutes);
 app.use('/api/v1/otp', otpRoutes);
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/location', locationRoutes);
+app.use('/api/v1/order', orderRoutes);
 
 const server = http.createServer(app);
 const io = new Server(server);

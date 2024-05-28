@@ -18,6 +18,11 @@ const Order = sequelize.define('Orders', {
         defaultValue: false,
         allowNull: false
     },
+    courierID: { type: DataTypes.STRING, allowNull: true, defaultValue: null },
+    courierReceivedTime: {
+        type: DataTypes.BIGINT,
+        defaultValue: null
+    },
     otpType: { type: DataTypes.STRING, allowNull: false },
     otpCode: { type: DataTypes.STRING, allowNull: true },
     otpSentTime: {
