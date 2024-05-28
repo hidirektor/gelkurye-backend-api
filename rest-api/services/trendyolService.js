@@ -15,7 +15,7 @@ async function trendyolOrders() {
             const merchantAPI = await MerchantsAPI.findOne({ where: { merchantID: merchantDetails.merchantID } });
             if (!merchantAPI) continue;
 
-            const trendyolResponse = await axios.get('https://api.trendyol.com/sapigw/suppliers/' + merchantAPI.trendyolSupplierID + '/orders', {
+            const trendyolResponse = await axios.get(`https://stageapi.trendyol.com/mealgw/suppliers/${merchantAPI.trendyolSupplierID}/packages`, {
                 headers: {
                     'Authorization': 'Basic ' + Buffer.from(merchantAPI.trendyolAPIKey + ':' + merchantAPI.trendyolAPISecretKey).toString('base64'),
                     'x-agentname': process.env.TRENDYOL_AGENT_NAME,
@@ -27,6 +27,9 @@ async function trendyolOrders() {
 
             for (const order of orders) {
                 if (order.packageStatus === 'Cancelled') continue; // İptal edilen siparişleri atla
+
+                const existingOrder = await Orders.findOne({ where: { marketplaceOrderID: order.id } });
+                if (existingOrder) continue; // prevent duplicate orders
 
                 await Orders.create({
                     merchantID: merchantDetails.merchantID,
