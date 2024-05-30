@@ -7,6 +7,7 @@ module.exports = async (req, res) => {
     const { phoneNumber } = req.body;
 
     const user = await Users.findOne({ where: { phoneNumber } });
+    const userID = user.userID;
     const userDocuments = await UserDocuments.findOne({ where: { userID } });
     const userPreferences = await UserPreferences.findOne({ where: { userID } });
     const userRating = await UserRating.findOne({ where: { userID } });
