@@ -4,9 +4,9 @@ const UserPreferences = require('../../models/UserPreferences');
 const UserRating = require('../../models/UserRating');
 
 module.exports = async (req, res) => {
-    const { userID } = req.body;
+    const { phoneNumber } = req.body;
 
-    const user = await Users.findOne({ where: { userID } });
+    const user = await Users.findOne({ where: { phoneNumber } });
     const userDocuments = await UserDocuments.findOne({ where: { userID } });
     const userPreferences = await UserPreferences.findOne({ where: { userID } });
     const userRating = await UserRating.findOne({ where: { userID } });
