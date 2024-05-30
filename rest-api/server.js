@@ -1,12 +1,10 @@
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
-const app = express();
+const { Worker } = require('worker_threads');
 require('dotenv').config();
 const sequelize = require('./config/database');
 require('./config/associations');
-const { trendyolService } = require('./services/trendyolService');
-const { getirService } = require('./services/getirService');
 
 const authRoutes = require('./routes/auth');
 const tokenRoutes = require('./routes/token');
@@ -14,6 +12,8 @@ const otpRoutes = require('./routes/otp');
 const userRoutes = require('./routes/user');
 const locationRoutes = require('./routes/location');
 const orderRoutes = require('./routes/order');
+
+const app = express();
 
 app.use(express.json());
 app.use('/api/v1/auth', authRoutes);
@@ -42,9 +42,25 @@ sequelize.sync({ force: true, alter: true }).then(() => {
     server.listen(process.env.PORT, () => {
         console.log('Server running on port 3000');
 
-        // Her 1 dakikada bir siparişleri çek
-        setInterval(trendyolService, 60000);
-        setInterval(getirService, 60000);
+        const trendyolWorker = new Worker('./services/trendyol/trendyolWorker.js');
+        const getirWorker = new Worker('./services/getir/getirWorker.js');
+
+        trendyolWorker.on('error', (error) => {
+            console.error('Trendyol Worker Error:', error);
+        });
+
+        getirWorker.on('error', (error) => {
+            console.error('Getir Worker Error:', error);
+        });
+
+        process.on('SIGINT', () => {
+            trendyolWorker.postMessage('stop');
+            getirWorker.postMessage('stop');
+            server.close(() => {
+                console.log('Server shut down');
+                process.exit(0);
+            });
+        });
     });
 }).catch((error) => {
     console.error('Unable to connect to the database:', error);
