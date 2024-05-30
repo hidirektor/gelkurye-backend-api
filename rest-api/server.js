@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const http = require('http');
 const { Server } = require('socket.io');
 const { Worker } = require('worker_threads');
@@ -14,6 +15,9 @@ const locationRoutes = require('./routes/location');
 const orderRoutes = require('./routes/order');
 
 const app = express();
+
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
 app.use(express.json());
 app.use('/api/v1/auth', authRoutes);
