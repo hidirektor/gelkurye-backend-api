@@ -6,17 +6,14 @@ const moment = require('moment');
 
 module.exports = async (req, res) => {
     const { email } = req.body;
+
+    const user = req.user;
+    const userID = user.userID;
+
     const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
     const otpSent = moment().unix();
 
     try {
-        const user = await Users.findOne({ where: { eMail: email } });
-        if (!user) {
-            return res.status(404).json({ message: 'Invalid email. User not found.' });
-        }
-
-        const userID = user.userID;
-
         const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
             port: process.env.SMTP_PORT,

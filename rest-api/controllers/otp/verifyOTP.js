@@ -5,13 +5,10 @@ const moment = require('moment');
 module.exports = async (req, res) => {
     const { phoneNumber, otpCode, otpSent } = req.body;
 
-    try {
-        const user = await Users.findOne({ where: { phoneNumber } });
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
+    const user = req.user;
+    const userID = user.userID;
 
-        const userID = user.userID;
+    try {
         const otpEntry = await OTPLog.findOne({ where: { userID, otpSent } });
 
         if (!otpEntry) {
