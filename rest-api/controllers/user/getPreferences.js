@@ -1,11 +1,11 @@
-const UserPreferences = require('../../models/UserPreferences');
+const UserService = require('../../services/userService');
+const { handleError } = require('../../utils/errorUtil');
 
 module.exports = async (req, res) => {
-    const { userID } = req.body;
-
-    const userPreferences = await UserPreferences.findOne({ where: { userID } });
-
-    if (!userPreferences) return res.status(404).json({ message: 'Preferences not found' });
-
-    res.json(userPreferences);
+    try {
+        const userPreferences = await UserService.getPreferences(req.user.userID);
+        res.json(userPreferences);
+    } catch (error) {
+        handleError(res, error);
+    }
 };

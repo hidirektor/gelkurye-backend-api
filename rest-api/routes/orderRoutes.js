@@ -3,8 +3,7 @@ const router = express.Router();
 
 const trendyolTakeOrder = require('../controllers/order/trendyol/takeOrder');
 const trendyolDeliverOrder = require('../controllers/order/trendyol/deliverOrder');
-
-const authMiddleware = require('../middleware/authMiddleware');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 router.post('/trendyol/takeOrder', authMiddleware, trendyolTakeOrder);
 router.post('/trendyol/deliverOrder', authMiddleware, trendyolDeliverOrder);

@@ -1,20 +1,13 @@
-const Users = require('../../models/User');
-const UserDocuments = require('../../models/UserDocuments');
+const UserService = require('../../services/userService');
+const { handleError } = require('../../utils/errorUtil');
 
 module.exports = async (req, res) => {
     const { userID, userData, userDocumentsData } = req.body;
 
-    const user = await Users.findOne({ where: { userID } });
-    if (!user) return res.status(404).json({ message: 'User not found' });
-
-    await user.update(userData);
-
-    const userDocuments = await UserDocuments.findOne({ where: { userID } });
-    if (userDocuments) {
-        await userDocuments.update(userDocumentsData);
-    } else {
-        await UserDocuments.create({ userID, ...userDocumentsData });
+    try {
+        const result = await UserService.updateProfile(userID, userData, userDocumentsData);
+        res.json(result);
+    } catch (error) {
+        handleError(res, error);
     }
-
-    res.json({ message: 'Profile updated successfully' });
 };

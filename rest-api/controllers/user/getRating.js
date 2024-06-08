@@ -1,11 +1,11 @@
-const UserRating = require('../../models/UserRating');
+const UserService = require('../../services/userService');
+const { handleError } = require('../../utils/errorUtil');
 
 module.exports = async (req, res) => {
-    const { userID } = req.body;
-
-    const userRating = await UserRating.findOne({ where: { userID } });
-
-    if (!userRating) return res.status(404).json({ message: 'Rating not found' });
-
-    res.json(userRating);
+    try {
+        const userRating = await UserService.getRating(req.user.userID);
+        res.json(userRating);
+    } catch (error) {
+        handleError(res, error);
+    }
 };

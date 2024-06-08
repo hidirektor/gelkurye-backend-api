@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const RefreshToken = require('../../models/RefreshToken');
 const { generateAccessToken } = require('../../config/jwt');
+const { handleError } = require('../../utils/errorUtil');
 
 module.exports = async (req, res) => {
     const { token } = req.body;
@@ -16,6 +17,6 @@ module.exports = async (req, res) => {
 
         res.json({ accessToken: newAccessToken });
     } catch (error) {
-        res.sendStatus(403);
+        handleError(res, error);
     }
 };

@@ -1,25 +1,33 @@
 const express = require('express');
+const cors = require('cors');
+require('dotenv').config();
 const bodyParser = require('body-parser');
 const http = require('http');
 const { Server } = require('socket.io');
 const { Worker } = require('worker_threads');
-require('dotenv').config();
+
 const sequelize = require('./config/database');
 require('./config/associations');
 
-const authRoutes = require('./routes/auth');
-const tokenRoutes = require('./routes/token');
-const otpRoutes = require('./routes/otp');
-const userRoutes = require('./routes/user');
-const locationRoutes = require('./routes/location');
-const orderRoutes = require('./routes/order');
+const authRoutes = require('./routes/authRoutes');
+const tokenRoutes = require('./routes/tokenRoutes');
+const otpRoutes = require('./routes/otpRoutes');
+const userRoutes = require('./routes/userRoutes');
+const locationRoutes = require('./routes/locationRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 
 const app = express();
 
+const corsOptions = {
+    origin: 'http://example.com',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
-app.use(express.json());
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/token', tokenRoutes);
 app.use('/api/v1/otp', otpRoutes);
@@ -44,7 +52,7 @@ io.on('connection', (socket) => {
 
 sequelize.sync({ force: true, alter: true }).then(() => {
     server.listen(process.env.PORT, () => {
-        console.log('Server running on port 3000');
+        console.log(`Server running on port ${process.env.PORT}`);
 
         const trendyolWorker = new Worker('./services/trendyol/trendyolWorker.js');
         const getirWorker = new Worker('./services/getir/getirWorker.js');
