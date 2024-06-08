@@ -19,7 +19,7 @@ const orderRoutes = require('./routes/orderRoutes');
 const app = express();
 
 const corsOptions = {
-    origin: 'http://example.com',
+    origin: 'http://85.95.231.92',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 };
@@ -54,8 +54,8 @@ sequelize.sync({ force: true, alter: true }).then(() => {
     server.listen(process.env.PORT, () => {
         console.log(`Server running on port ${process.env.PORT}`);
 
-        const trendyolWorker = new Worker('./services/trendyol/trendyolWorker.js');
-        const getirWorker = new Worker('./services/getir/getirWorker.js');
+        const trendyolWorker = new Worker('./controllers/services/marketplace/trendyol/trendyolWorker.js');
+        const getirWorker = new Worker('./controllers/services/marketplace/getir/getirWorker.js');
 
         trendyolWorker.on('error', (error) => {
             console.error('Trendyol Worker Error:', error);

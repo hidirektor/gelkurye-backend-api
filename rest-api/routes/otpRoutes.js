@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const controllerFactory = require('../controllers/controllerFactory');
 
-const sendMailOTP = require('../controllers/otp/sendMail');
-const sendSMSOTP = require('../controllers/otp/sendSMS');
-const verifyOTP = require('../controllers/otp/verifyOTP');
+const sendMailOTPController = controllerFactory.creating('otp/sendMail');
+const sendSMSOTPController = controllerFactory.creating('otp/sendSMS');
+const verifyOTPController = controllerFactory.creating('otp/verifyOTP');
+
 const userFetch = require('../middlewares/userFetch');
 
-router.post('/sendMail', userFetch, sendMailOTP);
-router.post('/sendSMS', userFetch, sendSMSOTP);
-router.post('/verifyOTP', userFetch, verifyOTP);
+router.post('/sendMail', userFetch, (req, res) => sendMailOTPController.create({ req, res }));
+router.post('/sendSMS', userFetch, (req, res) => sendSMSOTPController.create({ req, res }));
+router.post('/verifyOTP', userFetch, (req, res) => verifyOTPController.create({ req, res }));
 
 module.exports = router;
