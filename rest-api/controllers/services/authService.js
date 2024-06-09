@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { generateAccessToken } = require('../../config/jwt');
 const CustomError = require('../../utils/customError');
+const generateUserID = require("../../utils/userIDGenerator");
 
 class AuthService {
     static async register(userData) {

@@ -33,8 +33,8 @@ class UserService {
         return { message: 'Profile updated successfully' };
     }
 
-    static async getPreferences(userID) {
-        const userPreferences = await UserPreferences.findOne({ where: { userID } });
+    static async getPreferences(phoneNumber) {
+        const userPreferences = await UserPreferences.findOne({ where: { phoneNumber } });
         if (!userPreferences) throw new CustomError('Preferences not found', 404);
 
         return userPreferences;
@@ -49,8 +49,8 @@ class UserService {
         return { message: 'Preferences updated successfully' };
     }
 
-    static async getRating(userID) {
-        const userRating = await UserRating.findOne({ where: { userID } });
+    static async getRating(phoneNumber) {
+        const userRating = await UserRating.findOne({ where: { phoneNumber } });
         if (!userRating) throw new CustomError('Rating not found', 404);
 
         return userRating;

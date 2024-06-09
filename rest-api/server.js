@@ -19,13 +19,13 @@ const orderRoutes = require('./routes/orderRoutes');
 
 const app = express();
 
-const corsOptions = {
+/*const corsOptions = {
     origin: 'http://85.95.231.92',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-};
+};*/
 
-app.use(cors(corsOptions));
+//app.use(cors(corsOptions));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
     });
 });
 
-sequelize.sync({ force: true, alter: true }).then(() => {
+sequelize.sync({ force: true, alter: false }).then(() => {
     server.listen(process.env.PORT, () => {
         console.log(`Server running on port ${process.env.PORT}`);
 
