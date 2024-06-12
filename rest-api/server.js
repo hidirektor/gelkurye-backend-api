@@ -1,5 +1,4 @@
 const express = require('express');
-const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 require('dotenv').config();
 const bodyParser = require('body-parser');
@@ -19,22 +18,15 @@ const orderRoutes = require('./routes/orderRoutes');
 
 const app = express();
 
-/*const corsOptions = {
-    origin: 'http://85.95.231.92',
+const corsOptions = {
+    origin: 'http://example.com',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-};*/
+};
 
-//app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
-
-const globalRateLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100 // 100 req per ip
-});
-
-app.use(globalRateLimiter);
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/token', tokenRoutes);
@@ -58,12 +50,12 @@ io.on('connection', (socket) => {
     });
 });
 
-sequelize.sync({ force: true, alter: false }).then(() => {
+sequelize.sync({ force: true, alter: true }).then(() => {
     server.listen(process.env.PORT, () => {
         console.log(`Server running on port ${process.env.PORT}`);
 
-        const trendyolWorker = new Worker('./controllers/services/marketplace/trendyol/trendyolWorker.js');
-        const getirWorker = new Worker('./controllers/services/marketplace/getir/getirWorker.js');
+        const trendyolWorker = new Worker('./services/marketplace/trendyol/trendyolWorker.js');
+        const getirWorker = new Worker('./services/marketplace/getir/getirWorker.js');
 
         trendyolWorker.on('error', (error) => {
             console.error('Trendyol Worker Error:', error);
