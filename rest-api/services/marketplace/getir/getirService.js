@@ -1,8 +1,8 @@
 const axios = require('axios');
-const Users = require('../../models/User');
-const Merchants = require('../../models/Merchants');
-const MerchantsAPI = require('../../models/MerchantsAPI');
-const Orders = require('../../models/Order');
+const Users = require('../../../models/User');
+const Merchants = require('../../../models/Merchants');
+const MerchantsAPI = require('../../../models/MerchantsAPI');
+const Orders = require('../../../models/Order');
 
 async function getirOrders() {
     try {
