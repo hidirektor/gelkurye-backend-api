@@ -1,4 +1,8 @@
 const Users = require('../models/User');
+const UserDocuments = require('../models/UserDocuments');
+const UserPreferences = require('../models/UserPreferences');
+const UserRating = require('../models/UserRating');
+const Merchants = require('../models/Merchants');
 const RefreshToken = require('../models/RefreshToken');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -13,6 +17,42 @@ class AuthService {
         userData.userID = userID;
 
         const newUser = await Users.create(userData);
+
+        await UserDocuments.create({
+            userID: userID,
+            licenseFrontFace: userData.licenseFrontFace,
+            licenseBackFace: userData.licenseBackFace
+        });
+
+        await UserPreferences.create({
+            userID,
+            nightMode: false,
+            selectedLanguage: true,
+            firstBreakTime: new Date(new Date().setHours(10, 0, 0)),
+            secondBreakTime: new Date(new Date().setHours(18, 0, 0))
+        });
+        await UserRating.create({ userID, userRating: 0 });
+
+        if (userData.userType === 'MERCHANT') {
+            let merchantID = generateUserID();
+            const mName = userData.merchantName;
+            const mAddress = userData.merchantAddress;
+            const mContactNumber = userData.contactNumber;
+            let merchantExists = await Merchants.findOne({ where: { merchantID } });
+
+            while (merchantExists || await Users.findOne({ where: { userID: merchantID } })) {
+                merchantID = generateUserID();
+                merchantExists = await Merchants.findOne({ where: { merchantID } });
+            }
+
+            await Merchants.create({
+                userID,
+                merchantID,
+                mName,
+                mAddress,
+                mContactNumber
+            });
+        }
 
         return newUser;
     }
