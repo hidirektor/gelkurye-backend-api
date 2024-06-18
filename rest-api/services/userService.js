@@ -49,7 +49,10 @@ class UserService {
         return userPreferences;
     }
 
-    static async updatePreferences(userID, preferencesData) {
+    static async updatePreferences(phoneNumber, preferencesData) {
+        const user = await Users.findOne({ where: { phoneNumber } });
+        const userID = user.userID;
+
         const userPreferences = await UserPreferences.findOne({ where: { userID } });
         if (!userPreferences) throw new CustomError('Preferences not found', 404);
 
