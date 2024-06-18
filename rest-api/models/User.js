@@ -12,8 +12,8 @@ const User = sequelize.define('Users', {
     address: { type: DataTypes.STRING, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
     profilePhoto: { type: DataTypes.TEXT, allowNull: false },
-    relativeNameSurname: { type: DataTypes.STRING, allowNull: false },
-    relativePhoneNumber: { type: DataTypes.STRING, allowNull: false },
+    relativeNameSurname: { type: DataTypes.STRING, allowNull: true },
+    relativePhoneNumber: { type: DataTypes.STRING, allowNull: true },
     registeredMerchant: { type: DataTypes.STRING, allowNull: true },
     lastPasswordChange: {
         type: DataTypes.BIGINT,
