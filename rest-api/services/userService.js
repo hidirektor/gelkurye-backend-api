@@ -17,17 +17,26 @@ class UserService {
         return { user, userDocuments, userPreferences, userRating };
     }
 
-    static async updateProfile(userID, userData, userDocumentsData) {
-        const user = await Users.findOne({ where: { userID } });
+    static async updateProfile(phoneNumber, userData, userDocumentsData, userPreferencesData) {
+        const user = await Users.findOne({ where: { phoneNumber } });
         if (!user) throw new CustomError('User not found', 404);
 
         await user.update(userData);
+
+        const userID = user.userID;
 
         const userDocuments = await UserDocuments.findOne({ where: { userID } });
         if (userDocuments) {
             await userDocuments.update(userDocumentsData);
         } else {
             await UserDocuments.create({ userID, ...userDocumentsData });
+        }
+
+        const userPreferences = await UserPreferences.findOne({ where: { userID } });
+        if (userPreferences) {
+            await userPreferences.update(userPreferencesData);
+        } else {
+            await UserPreferences.create({ userID, ...userPreferencesData });
         }
 
         return { message: 'Profile updated successfully' };
