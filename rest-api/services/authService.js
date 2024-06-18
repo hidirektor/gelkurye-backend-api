@@ -12,49 +12,57 @@ const generateUserID = require("../utils/userIDGenerator");
 
 class AuthService {
     static async register(userData) {
-        const userID = generateUserID();
-        userData.password = await bcrypt.hash(userData.password, 10);
-        userData.userID = userID;
+        try {
+            const userID = generateUserID();
+            userData.password = await bcrypt.hash(userData.password, 10);
+            userData.userID = userID;
 
-        const newUser = await Users.create(userData);
+            console.log("Creating new user with userID:", userID);
+            const newUser = await Users.create(userData);
 
-        await UserDocuments.create({
-            userID: userID,
-            licenseFrontFace: userData.licenseFrontFace,
-            licenseBackFace: userData.licenseBackFace
-        });
+            if (userData.userType === 'CARRIER') {
+                console.log("Creating documents and rating for CARRIER with userID:", userID);
+                await UserDocuments.create({
+                    userID: userID,
+                    licenseFrontFace: userData.licenseFrontFace,
+                    licenseBackFace: userData.licenseBackFace
+                });
 
-        await UserPreferences.create({
-            userID,
-            nightMode: false,
-            selectedLanguage: true,
-            firstBreakTime: new Date(new Date().setHours(10, 0, 0)),
-            secondBreakTime: new Date(new Date().setHours(18, 0, 0))
-        });
-        await UserRating.create({ userID, userRating: 0 });
+                await UserRating.create({ userID, userRating: 0 });
+            } else if (userData.userType === 'MERCHANT') {
+                let merchantID = generateUserID();
+                const { merchantName, merchantAddress, contactNumber } = userData;
+                let merchantExists = await Merchants.findOne({ where: { merchantID } });
 
-        if (userData.userType === 'MERCHANT') {
-            let merchantID = generateUserID();
-            const mName = userData.merchantName;
-            const mAddress = userData.merchantAddress;
-            const mContactNumber = userData.contactNumber;
-            let merchantExists = await Merchants.findOne({ where: { merchantID } });
+                while (merchantExists || await Users.findOne({ where: { userID: merchantID } })) {
+                    merchantID = generateUserID();
+                    merchantExists = await Merchants.findOne({ where: { merchantID } });
+                }
 
-            while (merchantExists || await Users.findOne({ where: { userID: merchantID } })) {
-                merchantID = generateUserID();
-                merchantExists = await Merchants.findOne({ where: { merchantID } });
+                console.log("Creating new merchant with merchantID:", merchantID);
+                await Merchants.create({
+                    userID,
+                    merchantID,
+                    merchantName: merchantName,
+                    merchantAddress: merchantAddress,
+                    contactNumber: contactNumber
+                });
             }
 
-            await Merchants.create({
+            console.log("Creating user preferences for userID:", userID);
+            await UserPreferences.create({
                 userID,
-                merchantID,
-                mName,
-                mAddress,
-                mContactNumber
+                nightMode: false,
+                selectedLanguage: true,
+                firstBreakTime: new Date(new Date().setHours(10, 0, 0)),
+                secondBreakTime: new Date(new Date().setHours(18, 0, 0))
             });
-        }
 
-        return newUser;
+            return newUser;
+        } catch (error) {
+            console.error("Error during user registration:", error);
+            throw error;
+        }
     }
 
     static async login(userData) {
