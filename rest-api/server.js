@@ -9,10 +9,6 @@ const { Worker } = require('worker_threads');
 const sequelize = require('./config/database');
 require('./config/associations');
 
-const trendyolWorker = new Worker('./services/marketplace/trendyol/trendyolWorker.js');
-const getirWorker = new Worker('./services/marketplace/getir/getirWorker.js');
-const tokenExpirationWorker = new Worker('./workers/tokenExpirationWorker.js');
-
 const authRoutes = require('./routes/authRoutes');
 const tokenRoutes = require('./routes/tokenRoutes');
 const otpRoutes = require('./routes/otpRoutes');
@@ -60,6 +56,9 @@ sequelize.sync({ force: false, alter: true }).then(() => {
     server.listen(process.env.PORT, () => {
         console.log(`Server running on port ${process.env.PORT}`);
 
+        const trendyolWorker = new Worker('./services/marketplace/trendyol/trendyolWorker.js');
+        const getirWorker = new Worker('./services/marketplace/getir/getirWorker.js');
+
         trendyolWorker.on('error', (error) => {
             console.error('Trendyol Worker Error:', error);
         });
@@ -68,14 +67,9 @@ sequelize.sync({ force: false, alter: true }).then(() => {
             console.error('Getir Worker Error:', error);
         });
 
-        tokenExpirationWorker.on('error', (error) => {
-            console.error('Token Expiration Worker Error:', error);
-        });
-
         process.on('SIGINT', () => {
             trendyolWorker.postMessage('stop');
             getirWorker.postMessage('stop');
-            tokenExpirationWorker.postMessage('stop');
             server.close(() => {
                 console.log('Server shut down');
                 process.exit(0);

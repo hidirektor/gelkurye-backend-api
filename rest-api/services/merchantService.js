@@ -15,14 +15,22 @@ class MerchantService {
     }
 
     static async updateTrendyolAPI(merchantID, apiData) {
-        const merchantAPI = await MerchantsAPI.findOne({ where: { merchantID } });
-        if (!merchantAPI) throw new CustomError('Merchant not found', 404);
-
-        await merchantAPI.update({
-            trendyolSupplierID: apiData.supplierID,
-            trendyolAPIKey: apiData.apiKey,
-            trendyolAPISecretKey: apiData.apiSecretKey,
+        const [merchantAPI, created] = await MerchantsAPI.findOrCreate({
+            where: { merchantID },
+            defaults: {
+                trendyolSupplierID: apiData.supplierID,
+                trendyolAPIKey: apiData.apiKey,
+                trendyolAPISecretKey: apiData.apiSecretKey,
+            }
         });
+
+        if (!created) {
+            await merchantAPI.update({
+                trendyolSupplierID: apiData.supplierID,
+                trendyolAPIKey: apiData.apiKey,
+                trendyolAPISecretKey: apiData.apiSecretKey,
+            });
+        }
 
         return { message: 'Trendyol API updated successfully' };
     }
@@ -35,10 +43,16 @@ class MerchantService {
     }
 
     static async updateGetirYemekAPI(merchantID, token) {
-        const merchantAPI = await MerchantsAPI.findOne({ where: { merchantID } });
-        if (!merchantAPI) throw new CustomError('Merchant not found', 404);
+        const [merchantAPI, created] = await MerchantsAPI.findOrCreate({
+            where: { merchantID },
+            defaults: {
+                getirYemekMerchantToken: token,
+            }
+        });
 
-        await merchantAPI.update({ getirYemekMerchantToken: token });
+        if (!created) {
+            await merchantAPI.update({ getirYemekMerchantToken: token });
+        }
 
         return { message: 'Getir Yemek API updated successfully' };
     }
@@ -68,16 +82,26 @@ class MerchantService {
 
         const { access_token, expires_in } = loginResponse.data;
 
-        const merchantAPI = await MerchantsAPI.findOne({ where: { merchantID } });
-        if (!merchantAPI) throw new CustomError('Merchant not found', 404);
-
-        await merchantAPI.update({
-            yemekSepetiGeneratedToken: access_token,
-            yemekSepetiUsername: loginData.username,
-            yemekSepetiPassword: loginData.password,
-            yemekSepetiExpiresStart: new Date(),
-            yemekSepetiExpiresEnd: new Date(Date.now() + expires_in * 1000)
+        const [merchantAPI, created] = await MerchantsAPI.findOrCreate({
+            where: { merchantID },
+            defaults: {
+                yemekSepetiGeneratedToken: access_token,
+                yemekSepetiUsername: loginData.username,
+                yemekSepetiPassword: loginData.password,
+                yemekSepetiExpiresStart: new Date(),
+                yemekSepetiExpiresEnd: new Date(Date.now() + expires_in * 1000)
+            }
         });
+
+        if (!created) {
+            await merchantAPI.update({
+                yemekSepetiGeneratedToken: access_token,
+                yemekSepetiUsername: loginData.username,
+                yemekSepetiPassword: loginData.password,
+                yemekSepetiExpiresStart: new Date(),
+                yemekSepetiExpiresEnd: new Date(Date.now() + expires_in * 1000)
+            });
+        }
 
         return { message: 'Yemeksepeti API updated successfully' };
     }

@@ -2,6 +2,8 @@ const Users = require('../models/User');
 const UserPreferences = require('../models/UserPreferences');
 const UserDocuments = require('../models/UserDocuments');
 const UserRating = require('../models/UserRating');
+const Merchants = require('../models/Merchants');
+const MerchantsAPI = require('../models/MerchantsAPI');
 const CustomError = require('../utils/customError');
 
 class UserService {
@@ -13,8 +15,11 @@ class UserService {
         const userDocuments = await UserDocuments.findOne({ where: { userID } });
         const userPreferences = await UserPreferences.findOne({ where: { userID } });
         const userRating = await UserRating.findOne({ where: { userID } });
+        const Merchant = await Merchants.findOne({ where: { userID } });
+        const merchantID = Merchant.merchantID;
+        const MerchantAPI = await MerchantsAPI.findOne({ where: { merchantID } });
 
-        return { user, userDocuments, userPreferences, userRating };
+        return { user, userDocuments, userPreferences, userRating, Merchant, MerchantAPI };
     }
 
     static async updateProfile(phoneNumber, userData, userDocumentsData, userPreferencesData) {
