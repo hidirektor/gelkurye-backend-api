@@ -10,7 +10,9 @@ const MerchantsAPI = sequelize.define('MerchantsAPI', {
     getirYemekMerchantToken: { type: DataTypes.STRING, allowNull: true },
     yemekSepetiUsername: { type: DataTypes.STRING, allowNull: true },
     yemekSepetiPassword: { type: DataTypes.STRING, allowNull: true },
-    yemekSepetiGeneratedToken: { type: DataTypes.STRING, allowNull: true }
+    yemekSepetiGeneratedToken: { type: DataTypes.STRING, allowNull: true },
+    yemekSepetiExpiresStart: { type: DataTypes.DATE, allowNull: true },
+    yemekSepetiExpiresEnd: { type: DataTypes.DATE, allowNull: true }
 }, {
     timestamps: false,
     tableName: 'MerchantsAPI',
