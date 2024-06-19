@@ -59,13 +59,13 @@ sequelize.sync({ force: false, alter: true }).then(() => {
         const trendyolWorker = new Worker('./services/marketplace/trendyol/trendyolWorker.js');
         const getirWorker = new Worker('./services/marketplace/getir/getirWorker.js');
 
-        trendyolWorker.on('error', (error) => {
+        /*trendyolWorker.on('error', (error) => {
             console.error('Trendyol Worker Error:', error);
         });
 
         getirWorker.on('error', (error) => {
             console.error('Getir Worker Error:', error);
-        });
+        });*/
 
         process.on('SIGINT', () => {
             trendyolWorker.postMessage('stop');
