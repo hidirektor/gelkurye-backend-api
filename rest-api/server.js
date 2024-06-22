@@ -56,8 +56,8 @@ sequelize.sync({ force: false, alter: true }).then(() => {
     server.listen(process.env.PORT, () => {
         console.log(`Server running on port ${process.env.PORT}`);
 
-        const trendyolWorker = new Worker('./services/marketplace/trendyol/trendyolWorker.js');
-        const getirWorker = new Worker('./services/marketplace/getir/getirWorker.js');
+        //const trendyolWorker = new Worker('./services/marketplace/trendyol/trendyolWorker.js');
+        //const getirWorker = new Worker('./services/marketplace/getir/getirWorker.js');
 
         /*trendyolWorker.on('error', (error) => {
             console.error('Trendyol Worker Error:', error);
