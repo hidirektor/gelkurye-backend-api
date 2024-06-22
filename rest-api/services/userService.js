@@ -7,23 +7,27 @@ const MerchantsAPI = require('../models/MerchantsAPI');
 const CustomError = require('../utils/customError');
 
 class UserService {
-    static async getProfile(phoneNumber) {
+    static async getProfile(phoneNumber, userIdFromToken) {
         try {
             console.log(`Fetching user with phone number: ${phoneNumber}`);
             const user = await Users.findOne({ where: { phoneNumber } });
             if (!user) throw new CustomError('User not found', 404);
 
             const userID = user.userID;
-            console.log(`Fetching user documents for userID: ${userID}`);
-            const userDocuments = await UserDocuments.findOne({ where: { userID } });
+            if (userID !== userIdFromToken) {
+                throw new CustomError('Forbidden: Access denied', 403);
+            }
 
             console.log(`Fetching user preferences for userID: ${userID}`);
             const userPreferences = await UserPreferences.findOne({ where: { userID } });
 
-            console.log(`Fetching user rating for userID: ${userID}`);
-            const userRating = await UserRating.findOne({ where: { userID } });
-
             if(user.userType === "CARRIER") {
+                console.log(`Fetching user documents for userID: ${userID}`);
+                const userDocuments = await UserDocuments.findOne({ where: { userID } });
+
+                console.log(`Fetching user rating for userID: ${userID}`);
+                const userRating = await UserRating.findOne({ where: { userID } });
+
                 return { user, userDocuments, userPreferences, userRating };
             } else if(user.userType === "MERCHANT") {
                 console.log(`Fetching merchant for userID: ${userID}`);
